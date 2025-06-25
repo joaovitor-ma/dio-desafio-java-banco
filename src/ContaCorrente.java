@@ -26,4 +26,12 @@ public class ContaCorrente extends Conta {
             throw new SaldoInsuficienteException("Você não pode gastar esse valor, pois não tem saldo o suficiente.");
         }
     }
+
+    public double getFatura() {
+        return fatura;
+    }
+
+    public double getLimite() {
+        return limite;
+    }
 }
