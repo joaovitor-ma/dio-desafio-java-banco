@@ -1,14 +1,19 @@
 import Exceptions.SaldoInsuficienteException;
 
 public abstract class Conta {
-    private final int agencia;
-    private final int numero;
-    private double saldo;
+    protected static int AGENCIA_PADRAO = 1;
+    protected static int SEQUENCIAL = 1;
 
-    public Conta(int agencia, int numero) {
-        this.agencia = agencia;
-        this.numero = numero;
+    protected int agencia;
+    protected int numero;
+    protected double saldo;
+    protected Cliente donoDaConta;
+
+    public Conta(Cliente cliente) {
+        this.agencia = Conta.AGENCIA_PADRAO;
+        this.numero = SEQUENCIAL++;
         this.saldo = 0;
+        this.donoDaConta = cliente;
     }
 
     public void sacar(double valor) {
@@ -23,20 +28,13 @@ public abstract class Conta {
         this.saldo += valor;
     }
 
-    public void transferir(Conta conta, double valor) {
+    public void transferir(Conta contaDestino, double valor) {
         if(this.saldo - valor >= 0){
-            // TODO: criar alguma forma de retirar o saldo da conta atual e enviar para a conta passada nos parametros
+            this.saldo -= valor;
+            contaDestino.depositar(valor);
         }else{
             throw new SaldoInsuficienteException("Você não possui saldo o suficiente para realizar a transferência.");
         }
-    }
-
-    public int getAgencia() {
-        return agencia;
-    }
-
-    public int getNumero() {
-        return numero;
     }
 
     public double getSaldo() {
