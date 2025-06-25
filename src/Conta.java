@@ -16,6 +16,10 @@ public abstract class Conta {
         this.donoDaConta = cliente;
     }
 
+    public String obterInfoDono() {
+        return "Nome: "+donoDaConta.getNome()+", CPF: "+donoDaConta.getCpf();
+    }
+
     public void sacar(double valor) {
         if(this.saldo - valor >= 0) {
             this.saldo -= valor;
