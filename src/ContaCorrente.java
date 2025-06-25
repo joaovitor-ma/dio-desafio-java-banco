@@ -1,5 +1,6 @@
 import Exceptions.FaturaExcedeLimiteException;
 import Exceptions.SaldoInsuficienteException;
+import Exceptions.ValorExcedeFaturaException;
 
 public class ContaCorrente extends Conta {
 
@@ -25,6 +26,18 @@ public class ContaCorrente extends Conta {
         }else{
             throw new SaldoInsuficienteException("Você não pode gastar esse valor, pois não tem saldo o suficiente.");
         }
+    }
+
+    public void pagarFatura(double valor) {
+        if(super.saldo - valor < 0) { // Caso o saldo do usuário seja menor que o valor inserido para pagar:
+            throw new SaldoInsuficienteException("Você não tem saldo o suficiente para pagar este valor.");
+        }
+        if(this.fatura - valor < 0) { // Caso o usuário tente pagar um valor maior do que o que ele precisa:
+            throw new ValorExcedeFaturaException("O valor inserido para pagar é maior do que o necessário");
+        }
+
+        this.fatura -= valor;
+        super.saldo -= valor;
     }
 
     public double getFatura() {
